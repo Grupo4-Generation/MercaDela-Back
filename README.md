@@ -1,7 +1,7 @@
 # MercaDela
 
 <div align="center">
-    <img src="https://github.com/Grupo4-Generation/MercaDela/blob/main/MercaDela%20Logo.png" title="source: imgur.com" width="25%"/>
+    <img src="https://github.com/Grupo4-Generation/MercaDela/blob/main/MercaDela%20Logo.png" title="source: GitHub" width="25%"/>
 </div>
 <h1>Marketplace para Mulheres Empreendedoras</h1>
 
