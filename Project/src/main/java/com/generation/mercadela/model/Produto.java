@@ -27,19 +27,22 @@ public class Produto {
 	@Size(min=2,max=255,message = "NomeProduto não pode ser menor que 2 e ultrapassar 255 caracteres.")
 	private String nomeProduto;
 	
-	@NotBlank(message = "DescriçãoProduto não pode ser nulo.")
-	@Size(min=10,max=255,message = "DescriçãoProduto não pode ser menor que 10 e ultrapassar 255 caracteres.")
+	@NotBlank(message = "DescricaoProduto não pode ser nulo.")
+	@Size(min=10,max=255,message = "DescricaoProduto não pode ser menor que 10 e ultrapassar 255 caracteres.")
 	private String descricaoProduto;
 	
-	@NotNull(message = "PreçoProduto não pode ser nulo.")
-	@Positive(message = "PreçoProduto deve ser positivo.")
+	@NotNull(message = "PrecoProduto não pode ser nulo.")
+	@Positive(message = "PrecoProduto deve ser positivo.")
 	@Size(max=10,message = "PrecoProduto não pode ultrapassar 10 caracteres.")
 	private BigDecimal precoProduto;
 
 	@ManyToOne
 	@JsonIgnoreProperties("produtos")
-    private Categoria categoria;
+    private Categoria idCategoria;
 
+	@ManyToOne
+	@JsonIgnoreProperties("produtos")
+	private Usuario idUsuario;
 
 	public Long getId() {
 		return id;
@@ -73,11 +76,19 @@ public class Produto {
 		this.precoProduto = precoProduto;
 	}
 
-	public Categoria getCategoria() {
-		return categoria;
+	public Categoria getIdCategoria() {
+		return idCategoria;
 	}
 
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
+	public void setIdCategoria(Categoria idCategoria) {
+		this.idCategoria = idCategoria;
+	}
+
+	public Usuario getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Usuario idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 }

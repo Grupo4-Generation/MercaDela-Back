@@ -27,13 +27,12 @@ public class Categoria {
 	@Size(min=2,max=255,message = "NomeCategoria não pode ser menor que 2 e ultrapassar 255 caracteres.")
 	private String nomeCategoria;
 	
-	@NotBlank(message = "DescriçãoCategoria não pode ser nulo.")
-	@Size(min=10,max=255,message = "DescriçãoCategoria não pode ser menor que 10 e ultrapassar 255 caracteres.")
+	@NotBlank(message = "DescricaoCategoria não pode ser nulo.")
+	@Size(min=10,max=255,message = "DescricaoCategoria não pode ser menor que 10 e ultrapassar 255 caracteres.")
 	private String descricaoCategoria;
 	
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "categoria", cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties("categoria")
+	@OneToMany(mappedBy = "idCategoria", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties("idCategoria")
 	private List<Produto> produtos;
 
 	public Long getId() {
@@ -67,7 +66,4 @@ public class Categoria {
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
 	}
-	
-	
-	
 }

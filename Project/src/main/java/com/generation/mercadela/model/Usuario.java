@@ -34,6 +34,10 @@ public class Usuario {
     @Size(max = 255, message = "GeneroUsuario não pode ultrapassar 255 caracteres.")
     private String generoUsuario;
 
+	@OneToMany(mappedBy = "idUsuario", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties("idUsuario")
+	private List<Produto> produtos;
+
 	public Long getId() {
 		return id;
 	}
@@ -81,5 +85,12 @@ public class Usuario {
 	public void setGeneroUsuario(String generoUsuario) {
 		this.generoUsuario = generoUsuario;
 	}
-	
+
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
+	}
 }
