@@ -38,11 +38,8 @@ public class Produtos {
 
 	@ManyToOne
 	@JsonIgnoreProperties("produtos")
-    private Categorias idCategoria;
-	
-	@ManyToOne
-	@JsonIgnoreProperties("produtos")
-	private Usuario idUsuario;
+    private Categorias categoria;
+
 
 	public Long getId() {
 		return id;
@@ -76,22 +73,11 @@ public class Produtos {
 		this.precoProduto = precoProduto;
 	}
 
-	public Categorias getIdCategoria() {
-		return idCategoria;
+	public Categorias getCategoria() {
+		return categoria;
 	}
 
-	public void setIdCategoria(Categorias idCategoria) {
-		this.idCategoria = idCategoria;
+	public void setCategoria(Categorias categoria) {
+		this.categoria = categoria;
 	}
-
-	public Usuario getIdUsuario() {
-		return idUsuario;
-	}
-
-	public void setIdUsuario(Usuario idUsuario) {
-		this.idUsuario = idUsuario;
-	}
-	
-	
-
 }
