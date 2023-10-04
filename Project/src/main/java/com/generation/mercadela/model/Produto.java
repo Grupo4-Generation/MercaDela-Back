@@ -17,7 +17,7 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name="tb_produtos")
-public class Produtos {
+public class Produto {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class Produtos {
 
 	@ManyToOne
 	@JsonIgnoreProperties("produtos")
-    private Categorias categoria;
+    private Categoria categoria;
 
 
 	public Long getId() {
@@ -73,11 +73,11 @@ public class Produtos {
 		this.precoProduto = precoProduto;
 	}
 
-	public Categorias getCategoria() {
+	public Categoria getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(Categorias categoria) {
+	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
 }
