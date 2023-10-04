@@ -7,69 +7,74 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "tb_usuarios")
 public class Usuario {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "nome não pode ser nulo")
-    @Size(max = 255, message = "nome não pode ultrapassar 255 caracteres")
-    private String nome;
-    @NotBlank(message = "email não pode ser nulo")
-    @Size(max = 255, message = "email não pode ultrapassar 255 caracteres")
-    private String email;
+    
+    @NotBlank(message = "NomeUsuario não pode ser nulo.")
+    @Size(min=2,max = 255, message = "NomeUsuario não pode ser menor que 2 e ultrapassar 255 caracteres.")
+    private String nomeUsuario;
+    
+    @NotBlank(message = "NomeEmail não pode ser nulo.")
+    @Size(max = 255, message = "NomeEmail não pode ultrapassar 255 caracteres.")
+    private String emailUsuario;
 
     private Integer tipoUsuario;
-    @NotBlank(message = "senha não pode ser nulo")
-    @Size(max = 255, message = "senha não pode ultrapassar 255 caracteres")
-    private String senha;
-    @NotBlank(message = "genero não pode ser nulo")
-    @Size(max = 255, message = "genero não pode ultrapassar 255 caracteres")
-    private String genero;
+    
+    @NotBlank(message = "SenhaUsuario não pode ser nulo.")
+    @Size(min=8,max = 255, message = "SenhaUsuario não pode ser menor que 8 e ultrapassar 255 caracteres.")
+    private String senhaUsuario;
+    
+    @NotBlank(message = "GeneroUsuario não pode ser nulo.")
+    @Size(max = 255, message = "GeneroUsuario não pode ultrapassar 255 caracteres.")
+    private String generoUsuario;
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public String getNomeUsuario() {
+		return nomeUsuario;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public void setNomeUsuario(String nomeUsuario) {
+		this.nomeUsuario = nomeUsuario;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getEmailUsuario() {
+		return emailUsuario;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setEmailUsuario(String emailUsuario) {
+		this.emailUsuario = emailUsuario;
+	}
 
-    public Integer getTipoUsuario() {
-        return tipoUsuario;
-    }
+	public Integer getTipoUsuario() {
+		return tipoUsuario;
+	}
 
-    public void setTipoUsuario(Integer tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
-    }
+	public void setTipoUsuario(Integer tipoUsuario) {
+		this.tipoUsuario = tipoUsuario;
+	}
 
-    public String getSenha() {
-        return senha;
-    }
+	public String getSenhaUsuario() {
+		return senhaUsuario;
+	}
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+	public void setSenhaUsuario(String senhaUsuario) {
+		this.senhaUsuario = senhaUsuario;
+	}
 
-    public String getGenero() {
-        return genero;
-    }
+	public String getGeneroUsuario() {
+		return generoUsuario;
+	}
 
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
+	public void setGeneroUsuario(String generoUsuario) {
+		this.generoUsuario = generoUsuario;
+	}
 }
