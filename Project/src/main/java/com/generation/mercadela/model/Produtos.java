@@ -2,10 +2,13 @@ package com.generation.mercadela.model;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,10 +22,7 @@ public class Produtos {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	
-	private Long idCategoria;
-	
+		
 	@NotBlank(message = "NomeProduto não pode ser nulo.")
 	@Size(min=2,max=255,message = "NomeProduto não pode ser menor que 2 e ultrapassar 255 caracteres.")
 	private String nomeProduto;
@@ -36,20 +36,20 @@ public class Produtos {
 	@Size(max=10,message = "PrecoProduto não pode ultrapassar 10 caracteres.")
 	private BigDecimal precoProduto;
 
+	@ManyToOne
+	@JsonIgnoreProperties("produtos")
+    private Categorias idCategoria;
+	
+	@ManyToOne
+	@JsonIgnoreProperties("produtos")
+	private Usuario idUsuario;
+
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Long getIdCategoria() {
-		return idCategoria;
-	}
-
-	public void setIdCategoria(Long idCategoria) {
-		this.idCategoria = idCategoria;
 	}
 
 	public String getNomeProduto() {
@@ -75,4 +75,23 @@ public class Produtos {
 	public void setPrecoProduto(BigDecimal precoProduto) {
 		this.precoProduto = precoProduto;
 	}
+
+	public Categorias getIdCategoria() {
+		return idCategoria;
+	}
+
+	public void setIdCategoria(Categorias idCategoria) {
+		this.idCategoria = idCategoria;
+	}
+
+	public Usuario getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Usuario idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+	
+	
+
 }

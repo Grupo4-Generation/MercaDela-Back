@@ -1,6 +1,10 @@
 package com.generation.mercadela.model;
 
-import jakarta.persistence.*;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.*; 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -29,6 +33,10 @@ public class Usuario {
     @NotBlank(message = "GeneroUsuario não pode ser nulo.")
     @Size(max = 255, message = "GeneroUsuario não pode ultrapassar 255 caracteres.")
     private String generoUsuario;
+    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties("usuario")
+    private List<Produtos> produtos;
 
 	public Long getId() {
 		return id;
@@ -77,4 +85,14 @@ public class Usuario {
 	public void setGeneroUsuario(String generoUsuario) {
 		this.generoUsuario = generoUsuario;
 	}
+
+	public List<Produtos> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produtos> produtos) {
+		this.produtos = produtos;
+	}
+	
+	
 }

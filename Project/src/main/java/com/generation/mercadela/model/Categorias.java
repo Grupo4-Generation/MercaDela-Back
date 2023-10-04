@@ -1,9 +1,16 @@
 package com.generation.mercadela.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -23,6 +30,11 @@ public class Categorias {
 	@NotBlank(message = "DescriçãoCategoria não pode ser nulo.")
 	@Size(min=10,max=255,message = "DescriçãoCategoria não pode ser menor que 10 e ultrapassar 255 caracteres.")
 	private String descricaoCategoria;
+	
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "Categorias", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties
+	private List<Produtos> produtos;
 
 	public Long getId() {
 		return id;
@@ -47,4 +59,15 @@ public class Categorias {
 	public void setDescricaoCategoria(String descricaoCategoria) {
 		this.descricaoCategoria = descricaoCategoria;
 	}
+
+	public List<Produtos> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produtos> produtos) {
+		this.produtos = produtos;
+	}
+	
+	
+	
 }
