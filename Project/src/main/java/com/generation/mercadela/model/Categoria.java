@@ -1,69 +1,61 @@
 package com.generation.mercadela.model;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.List;
+
 @Entity
-@Table(name="tb_categorias")
+@Table(name = "tb_categorias")
 public class Categoria {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@NotBlank(message = "NomeCategoria não pode ser nulo.")
-	@Size(min=2,max=255,message = "NomeCategoria não pode ser menor que 2 e ultrapassar 255 caracteres.")
-	private String nomeCategoria;
-	
-	@NotBlank(message = "DescricaoCategoria não pode ser nulo.")
-	@Size(min=10,max=255,message = "DescricaoCategoria não pode ser menor que 10 e ultrapassar 255 caracteres.")
-	private String descricaoCategoria;
-	
-	@OneToMany(mappedBy = "idCategoria", cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties("idCategoria")
-	private List<Produto> produtos;
 
-	public Long getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @NotBlank(message = "NomeCategoria não pode ser nulo.")
+    @Size(min = 2, max = 255, message = "NomeCategoria não pode ser menor que 2 e ultrapassar 255 caracteres.")
+    private String nomeCategoria;
 
-	public String getNomeCategoria() {
-		return nomeCategoria;
-	}
+    @NotBlank(message = "DescricaoCategoria não pode ser nulo.")
+    @Size(min = 10, max = 255, message = "DescricaoCategoria não pode ser menor que 10 e ultrapassar 255 caracteres.")
+    private String descricaoCategoria;
 
-	public void setNomeCategoria(String nomeCategoria) {
-		this.nomeCategoria = nomeCategoria;
-	}
+    @OneToMany(mappedBy = "idCategoria", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties("idCategoria")
+    private List<Produto> produtos;
 
-	public String getDescricaoCategoria() {
-		return descricaoCategoria;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setDescricaoCategoria(String descricaoCategoria) {
-		this.descricaoCategoria = descricaoCategoria;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public List<Produto> getProdutos() {
-		return produtos;
-	}
+    public String getNomeCategoria() {
+        return nomeCategoria;
+    }
 
-	public void setProdutos(List<Produto> produtos) {
-		this.produtos = produtos;
-	}
+    public void setNomeCategoria(String nomeCategoria) {
+        this.nomeCategoria = nomeCategoria;
+    }
+
+    public String getDescricaoCategoria() {
+        return descricaoCategoria;
+    }
+
+    public void setDescricaoCategoria(String descricaoCategoria) {
+        this.descricaoCategoria = descricaoCategoria;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
+    }
 }
