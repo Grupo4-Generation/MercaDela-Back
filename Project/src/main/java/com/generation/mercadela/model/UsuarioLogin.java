@@ -5,8 +5,6 @@ public class UsuarioLogin {
     private String nomeUsuario;
     private String emailUsuario;
     private String senhaUsuario;
-
-
     private String generoUsuario;
     private String foto;
     private String token;
