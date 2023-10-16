@@ -30,6 +30,25 @@ public class Usuario {
     @Size(min = 8, max = 255, message = "SenhaUsuario não pode ser menor que 8 e ultrapassar 255 caracteres.")
     private String senhaUsuario;
 
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public List<Produto> getProduto() {
+        return produto;
+    }
+
+    public void setProduto(List<Produto> produto) {
+        this.produto = produto;
+    }
+
+    @Size(max = 5000, message = "O link da foto não pode ser maior do que 5000 caracteres")
+    private String foto;
+
     @NotBlank(message = "GeneroUsuario não pode ser nulo.")
     @Size(max = 255, message = "GeneroUsuario não pode ultrapassar 255 caracteres.")
     private String generoUsuario;

@@ -2,19 +2,11 @@ package com.generation.mercadela.model;
 
 public class UsuarioLogin {
     private Long id;
-    private String nome;
-    private String usuario;
-    private String senha;
+    private String nomeUsuario;
+    private String emailUsuario;
+    private String senhaUsuario;
     private String foto;
     private String token;
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 
     public Long getId() {
         return id;
@@ -24,20 +16,28 @@ public class UsuarioLogin {
         this.id = id;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getNomeUsuario() {
+        return nomeUsuario;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getEmailusuario() {
+        return emailUsuario;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setEmailusuario(String emailusuario) {
+        this.emailUsuario = emailUsuario;
+    }
+
+    public String getSenhaUsuario() {
+        return senhaUsuario;
+    }
+
+    public void setSenhaUsuario(String senhaUsuario) {
+        this.senhaUsuario = senhaUsuario;
     }
 
     public String getFoto() {
