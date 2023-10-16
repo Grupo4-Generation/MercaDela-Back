@@ -16,6 +16,7 @@ import com.generation.mercadela.model.UsuarioLogin;
 import com.generation.mercadela.repository.UsuarioRepository;
 import com.generation.mercadela.security.JwtService;
 
+@Service
 public class UsuarioService {
 	
 	@Autowired
