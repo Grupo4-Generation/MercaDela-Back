@@ -5,6 +5,9 @@ public class UsuarioLogin {
     private String nomeUsuario;
     private String emailUsuario;
     private String senhaUsuario;
+
+
+    private String generoUsuario;
     private String foto;
     private String token;
 
@@ -54,5 +57,20 @@ public class UsuarioLogin {
 
     public void setToken(String token) {
         this.token = token;
+    }
+    public String getEmailUsuario() {
+        return emailUsuario;
+    }
+
+    public void setEmailUsuario(String emailUsuario) {
+        this.emailUsuario = emailUsuario;
+    }
+
+    public String getGeneroUsuario() {
+        return generoUsuario;
+    }
+
+    public void setGeneroUsuario(String generoUsuario) {
+        this.generoUsuario = generoUsuario;
     }
 }
