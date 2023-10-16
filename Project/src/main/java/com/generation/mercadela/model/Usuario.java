@@ -1,10 +1,13 @@
 package com.generation.mercadela.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.util.List;
 
 @Entity
 @Table(name = "tb_usuarios")
@@ -23,8 +26,6 @@ public class Usuario {
     @Email
     private String emailUsuario;
 
-    private Integer tipoUsuario;
-
     @NotBlank(message = "SenhaUsuario não pode ser nulo.")
     @Size(min = 8, max = 255, message = "SenhaUsuario não pode ser menor que 8 e ultrapassar 255 caracteres.")
     private String senhaUsuario;
@@ -32,6 +33,12 @@ public class Usuario {
     @NotBlank(message = "GeneroUsuario não pode ser nulo.")
     @Size(max = 255, message = "GeneroUsuario não pode ultrapassar 255 caracteres.")
     private String generoUsuario;
+
+    private Integer tipoUsuario;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties("usuario")
+    private List<Produto> produto;
+
 
     public Long getId() {
         return id;
