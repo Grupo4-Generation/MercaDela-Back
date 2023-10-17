@@ -25,11 +25,11 @@ public class UsuarioLogin {
         this.nomeUsuario = nomeUsuario;
     }
 
-    public String getEmailusuario() {
+    public String getEmailUsuario() {
         return emailUsuario;
     }
 
-    public void setEmailusuario(String emailusuario) {
+    public void setEmailUsuario(String emailUsuario) {
         this.emailUsuario = emailUsuario;
     }
 
@@ -39,6 +39,14 @@ public class UsuarioLogin {
 
     public void setSenhaUsuario(String senhaUsuario) {
         this.senhaUsuario = senhaUsuario;
+    }
+
+    public String getGeneroUsuario() {
+        return generoUsuario;
+    }
+
+    public void setGeneroUsuario(String generoUsuario) {
+        this.generoUsuario = generoUsuario;
     }
 
     public String getFoto() {
@@ -55,21 +63,5 @@ public class UsuarioLogin {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public String getEmailUsuario() {
-        return emailUsuario;
-    }
-
-    public void setEmailUsuario(String emailUsuario) {
-        this.emailUsuario = emailUsuario;
-    }
-
-    public String getGeneroUsuario() {
-        return generoUsuario;
-    }
-
-    public void setGeneroUsuario(String generoUsuario) {
-        this.generoUsuario = generoUsuario;
     }
 }
