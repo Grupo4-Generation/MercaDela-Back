@@ -1,5 +1,6 @@
 package com.generation.mercadela.security;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import com.generation.mercadela.model.Usuario;
 
 public class UserDetailsImpl implements UserDetails {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	private String userName;
