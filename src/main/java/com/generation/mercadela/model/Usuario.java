@@ -1,6 +1,7 @@
 package com.generation.mercadela.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -21,6 +22,7 @@ public class Usuario {
     @Size(min = 2, max = 255, message = "NomeUsuario não pode ser menor que 2 e ultrapassar 255 caracteres.")
     private String nomeUsuario;
 
+    @Schema(example = "email@email.com.br")
     @NotNull(message = "EmailUsuario não pode ser nulo.")
     @Size(max = 255, message = "EmailUsuario não pode ultrapassar 255 caracteres.")
     @Email
