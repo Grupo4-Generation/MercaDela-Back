@@ -31,6 +31,7 @@ public class Produto {
 
     @ManyToOne
     @JsonIgnoreProperties("produtos")
+    @NotNull(message = "idCategoria não pode ser nulo.")
     private Categoria idCategoria;
 
     @ManyToOne
