@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.generation</groupId>
-	<artifactId>blogpessoal</artifactId>
+	<artifactId>mercadela</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>blogpessoal</name>
-	<description>CRUD do Blog Pessoal por Spring</description>
+	<name>mercadela</name>
+	<description>Projeto de Marketplace da instituição Generation ligado à ODS 5 da ONU</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
