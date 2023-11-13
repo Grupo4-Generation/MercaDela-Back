@@ -1,6 +1,5 @@
 package com.generation.mercadela.controller;
 
-import com.generation.mercadela.model.Categoria;
 import com.generation.mercadela.model.Produto;
 import com.generation.mercadela.repository.ProdutoRepository;
 import jakarta.validation.Valid;
@@ -35,13 +34,13 @@ public class ProdutoController {
         return ResponseEntity.ok(produtoRepository.findByNomeProdutoContainingIgnoreCase(nomeProduto));
     }
 
-    @PostMapping
+    @PostMapping("/cadastrar")
     public ResponseEntity<Produto> post(@Valid @RequestBody Produto produto){
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(produtoRepository.save(produto));
     }
 
-    @PutMapping
+    @PutMapping("/atualizar")
     public ResponseEntity<Produto> put(@Valid @RequestBody Produto produto){
         return produtoRepository.findById(produto.getId())
                 .map(resposta -> ResponseEntity.status(HttpStatus.OK)

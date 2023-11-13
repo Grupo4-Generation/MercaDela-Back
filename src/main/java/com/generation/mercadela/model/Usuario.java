@@ -24,8 +24,6 @@ public class Usuario {
 
     @Schema(example = "email@email.com.br")
     @NotNull(message = "EmailUsuario não pode ser nulo.")
-    @Size(max = 255, message = "EmailUsuario não pode ultrapassar 255 caracteres.")
-    @Email
     private String emailUsuario;
 
     @NotBlank(message = "SenhaUsuario não pode ser nulo.")

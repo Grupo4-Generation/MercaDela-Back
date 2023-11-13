@@ -29,6 +29,8 @@ public class Produto {
     @PositiveOrZero(message = "PrecoProduto deve ser positivo.")
     private BigDecimal precoProduto;
 
+    private String fotoProduto;
+
     @ManyToOne
     @JsonIgnoreProperties("produtos")
     @NotNull(message = "idCategoria não pode ser nulo.")
@@ -77,4 +79,13 @@ public class Produto {
     public void setIdCategoria(Categoria idCategoria) {
         this.idCategoria = idCategoria;
     }
+
+    public String getFotoProduto() {
+        return fotoProduto;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+    
 }
