@@ -36,6 +36,7 @@ public class Produto {
     @NotNull(message = "idCategoria não pode ser nulo.")
     private Categoria idCategoria;
 
+    @NotNull(message = "usuario não pode ser nulo.")
     @ManyToOne
     @JsonIgnoreProperties("produto")
     private Usuario usuario;
