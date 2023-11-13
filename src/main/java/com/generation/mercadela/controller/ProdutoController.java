@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/produtos")
+@RequestMapping("/produto")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProdutoController {
     @Autowired
@@ -34,13 +34,13 @@ public class ProdutoController {
         return ResponseEntity.ok(produtoRepository.findByNomeProdutoContainingIgnoreCase(nomeProduto));
     }
 
-    @PostMapping("/cadastrar")
+    @PostMapping
     public ResponseEntity<Produto> post(@Valid @RequestBody Produto produto){
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(produtoRepository.save(produto));
     }
 
-    @PutMapping("/atualizar")
+    @PutMapping
     public ResponseEntity<Produto> put(@Valid @RequestBody Produto produto){
         return produtoRepository.findById(produto.getId())
                 .map(resposta -> ResponseEntity.status(HttpStatus.OK)

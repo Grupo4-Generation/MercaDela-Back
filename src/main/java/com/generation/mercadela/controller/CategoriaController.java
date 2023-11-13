@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/categorias")
+@RequestMapping("/categoria")
 public class CategoriaController {
 
     @Autowired
@@ -31,12 +31,12 @@ public class CategoriaController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    @GetMapping("/nomeCategoria/{nomeCategoria}")
+    @GetMapping("nomeCategoria/{nomeCategoria}")
     public ResponseEntity<List<Categoria>> getBynomeCategoria(@PathVariable String nomeCategoria){
         return ResponseEntity.ok(categoriaRepository.findAllByNomeCategoriaContainingIgnoreCase(nomeCategoria));
     }
 
-    @PutMapping("/atualizar")
+    @PutMapping
     public ResponseEntity<Categoria> put(@Valid @RequestBody Categoria categoria){
         return categoriaRepository.findById(categoria.getId())
                 .map(resposta -> ResponseEntity.status(HttpStatus.OK)
@@ -44,7 +44,7 @@ public class CategoriaController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    @PostMapping("/cadastrar")
+    @PostMapping
     public ResponseEntity<Categoria> post(@Valid @RequestBody Categoria categoria){
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(categoriaRepository.save(categoria));
