@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.generation.mercadela.model.UsuarioLogin;
 import com.generation.mercadela.model.Usuario;
@@ -21,6 +23,7 @@ import com.generation.mercadela.repository.UsuarioRepository;
 import com.generation.mercadela.service.UsuarioService;
 
 import jakarta.validation.Valid;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -74,4 +77,14 @@ public class UsuarioController {
 
 	}
 
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@DeleteMapping("/{id}")
+	public void delete(@PathVariable Long id) {
+		Optional<Usuario> usuario = usuarioRepository.findById(id);
+
+		if(usuario.isEmpty())
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+		usuarioRepository.deleteById(id);
+	}
 }
