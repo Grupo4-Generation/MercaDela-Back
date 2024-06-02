@@ -26,7 +26,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
@@ -50,7 +50,7 @@ public class UserController {
 				.orElse(ResponseEntity.notFound().build());
 	}
 
-	@PostMapping("/logar")
+	@PostMapping("/login")
 	public ResponseEntity<UserLogin> autenticaruser(@RequestBody Optional<UserLogin> userLogin){
 
 		return userService.autenticaruser(userLogin)
@@ -59,7 +59,7 @@ public class UserController {
 	}
 
 
-	@PostMapping("/cadastrar")
+	@PostMapping("/register")
 	public ResponseEntity<User> postuser(@RequestBody @Valid User user) {
 
 		return userService.cadastraruser(user)
@@ -68,7 +68,7 @@ public class UserController {
 
 	}
 
-	@PutMapping("/atualizar")
+	@PutMapping("/update")
 	public ResponseEntity<User> putuser(@Valid @RequestBody User user) {
 
 		return userService.atualizaruser(user)

@@ -18,47 +18,47 @@ import java.util.Optional;
 public class CategoryController {
 
     @Autowired
-    private CategoryRepository categoriaRepository;
+    private CategoryRepository categoryRepository;
 
     @GetMapping
     public ResponseEntity<List<Category>> getAll() {
-        return ResponseEntity.ok(categoriaRepository.findAll());
+        return ResponseEntity.ok(categoryRepository.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Category> getById(@PathVariable Long id) {
-        return categoriaRepository.findById(id)
+        return categoryRepository.findById(id)
                 .map(resposta -> ResponseEntity.ok(resposta))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @GetMapping("name/{name}")
-    public ResponseEntity<List<Category>> getByname(@PathVariable String nomeCategoria){
-        return ResponseEntity.ok(categoriaRepository.findAllByNameContainingIgnoreCase(nomeCategoria));
+    public ResponseEntity<List<Category>> getByname(@PathVariable String name){
+        return ResponseEntity.ok(categoryRepository.findAllByNameContainingIgnoreCase(name));
     }
 
     @PutMapping
-    public ResponseEntity<Category> put(@Valid @RequestBody Category categoria){
-        return categoriaRepository.findById(categoria.getId())
+    public ResponseEntity<Category> put(@Valid @RequestBody Category category){
+        return categoryRepository.findById(category.getId())
                 .map(resposta -> ResponseEntity.status(HttpStatus.OK)
-                        .body(categoriaRepository.save(categoria)))
+                        .body(categoryRepository.save(category)))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @PostMapping
-    public ResponseEntity<Category> post(@Valid @RequestBody Category categoria){
+    public ResponseEntity<Category> post(@Valid @RequestBody Category category){
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(categoriaRepository.save(categoria));
+                .body(categoryRepository.save(category));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        Optional<Category> categoria = categoriaRepository.findById(id);
+        Optional<Category> category = categoryRepository.findById(id);
 
-        if(categoria.isEmpty())
+        if(category.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
-        categoriaRepository.deleteById(id);
+        categoryRepository.deleteById(id);
     }
 }

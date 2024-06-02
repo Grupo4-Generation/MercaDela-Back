@@ -32,7 +32,7 @@ public class Product {
     private String photo;
 
     @ManyToOne
-    @JsonIgnoreProperties("products")
+    @JsonIgnoreProperties("product")
     @NotNull
     private Category category;
 
