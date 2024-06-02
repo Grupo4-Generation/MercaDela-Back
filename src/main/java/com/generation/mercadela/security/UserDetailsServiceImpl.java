@@ -10,22 +10,22 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.generation.mercadela.model.Usuario;
-import com.generation.mercadela.repository.UsuarioRepository;
+import com.generation.mercadela.model.User;
+import com.generation.mercadela.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService{
 
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private UserRepository userRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 		
-		Optional<Usuario> usuario = usuarioRepository.findByEmailUsuario(userName);
+		Optional<User> user = userRepository.findByEmail(userName);
 
-		if (usuario.isPresent())
-			return new UserDetailsImpl(usuario.get());
+		if (user.isPresent())
+			return new UserDetailsImpl(user.get());
 		else
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 	}

@@ -17,61 +17,61 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.generation.mercadela.model.UsuarioLogin;
-import com.generation.mercadela.model.Usuario;
-import com.generation.mercadela.repository.UsuarioRepository;
-import com.generation.mercadela.service.UsuarioService;
+import com.generation.mercadela.model.UserLogin;
+import com.generation.mercadela.model.User;
+import com.generation.mercadela.repository.UserRepository;
+import com.generation.mercadela.service.UserService;
 
 import jakarta.validation.Valid;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/users")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class UsuarioController {
+public class UserController {
 
 	@Autowired
-	private UsuarioService usuarioService;
+	private UserService userService;
 
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private UserRepository userRepository;
 
 	@GetMapping("/all")
-	public ResponseEntity <List<Usuario>> getAll(){
+	public ResponseEntity <List<User>> getAll(){
 
-		return ResponseEntity.ok(usuarioRepository.findAll());
+		return ResponseEntity.ok(userRepository.findAll());
 
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Usuario> getById(@PathVariable Long id) {
-		return usuarioRepository.findById(id)
+	public ResponseEntity<User> getById(@PathVariable Long id) {
+		return userRepository.findById(id)
 				.map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.notFound().build());
 	}
 
 	@PostMapping("/logar")
-	public ResponseEntity<UsuarioLogin> autenticarUsuario(@RequestBody Optional<UsuarioLogin> usuarioLogin){
+	public ResponseEntity<UserLogin> autenticaruser(@RequestBody Optional<UserLogin> userLogin){
 
-		return usuarioService.autenticarUsuario(usuarioLogin)
+		return userService.autenticaruser(userLogin)
 				.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
 				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 	}
 
 
 	@PostMapping("/cadastrar")
-	public ResponseEntity<Usuario> postUsuario(@RequestBody @Valid Usuario usuario) {
+	public ResponseEntity<User> postuser(@RequestBody @Valid User user) {
 
-		return usuarioService.cadastrarUsuario(usuario)
+		return userService.cadastraruser(user)
 				.map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
 				.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 
 	}
 
 	@PutMapping("/atualizar")
-	public ResponseEntity<Usuario> putUsuario(@Valid @RequestBody Usuario usuario) {
+	public ResponseEntity<User> putuser(@Valid @RequestBody User user) {
 
-		return usuarioService.atualizarUsuario(usuario)
+		return userService.atualizaruser(user)
 				.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 
@@ -80,11 +80,11 @@ public class UsuarioController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) {
-		Optional<Usuario> usuario = usuarioRepository.findById(id);
+		Optional<User> user = userRepository.findById(id);
 
-		if(usuario.isEmpty())
+		if(user.isEmpty())
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
-		usuarioRepository.deleteById(id);
+		userRepository.deleteById(id);
 	}
 }

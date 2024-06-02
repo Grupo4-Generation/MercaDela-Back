@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.generation.mercadela.model.Usuario;
+import com.generation.mercadela.model.User;
 
 public class UserDetailsImpl implements UserDetails {
 
@@ -18,9 +18,9 @@ public class UserDetailsImpl implements UserDetails {
 	private String password;
 	private List<GrantedAuthority> authorities;
 	
-	public UserDetailsImpl(Usuario user) {
-		this.userName = user.getEmailUsuario();
-		this.password = user.getSenhaUsuario();
+	public UserDetailsImpl(User user) {
+		this.userName = user.getEmail();
+		this.password = user.getPassword();
 	}
 	
 	public UserDetailsImpl() {	}
