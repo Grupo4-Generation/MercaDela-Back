@@ -26,6 +26,7 @@ public class User {
     private Long id;
 
     @NotBlank
+    @Size(min = 11, max = 11)
     private String cpf;
 
     @NotBlank
