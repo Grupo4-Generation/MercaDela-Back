@@ -15,17 +15,17 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank       
     @Size(min = 2, max = 255)
     private String name;
-
+    
     @NotBlank()
     @Size(min = 10, max = 255)
     private String description;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties("category")
-    private List<Product> product;
+    private List<Product> product;                      
 
     public Long getId() {
         return id;
