@@ -60,9 +60,9 @@ public class UserController {
 
 
 	@PostMapping("/register")
-	public ResponseEntity<User> postuser(@RequestBody @Valid User user) {
+	public ResponseEntity<User> register(@RequestBody @Valid User user) {
 
-		return userService.cadastraruser(user)
+		return userService.register(user)
 				.map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
 				.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 

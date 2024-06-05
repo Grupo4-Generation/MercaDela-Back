@@ -28,7 +28,7 @@ public class UserService{
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	public Optional<User> cadastraruser(User user) {
+	public Optional<User> register(User user) {
 
 		if (userRepository.findByEmail(user.getEmail()).isPresent())
 			return Optional.empty();

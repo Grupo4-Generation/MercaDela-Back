@@ -25,13 +25,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(min = 11, max = 11)
     private String cpf;
 
-    @NotBlank
-    @Size(min = 2, max = 255)
-    private String name ;
+    private String name;
 
     @Schema(example = "email@email.com.br")
     @NotNull
@@ -44,9 +40,10 @@ public class User {
     @Size(max = 5000)
     private String photo;
 
-    @NotBlank
     @Size(max = 255)
     private String gender;
+
+    private boolean admin;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties("user")
@@ -108,16 +105,21 @@ public class User {
         this.product = product;
     }
 
-
-
     public String getCpf() {
         return cpf;
     }
 
-
-
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+    
 
 }
