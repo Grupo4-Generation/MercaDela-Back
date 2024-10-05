@@ -23,6 +23,7 @@ import lombok.Data;
 @Table(name = "tb_users")
 public class User {
 
+    @Schema(hidden = true) // Retirar atributo na leitura do swagger apenas para não causar erro de produtos inexistentes quando criar novos usuários
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
