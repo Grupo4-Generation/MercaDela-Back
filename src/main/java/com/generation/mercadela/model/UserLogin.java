@@ -9,7 +9,6 @@ import lombok.Data;
 @Data
 public class UserLogin {
 
-    @Schema(hidden = true)
     private Long id;
 
     @Schema(example = "email@email.com.br")
@@ -20,21 +19,15 @@ public class UserLogin {
     @Size(min = 8, max = 255)
     private String password;
 
-    @Schema(hidden = true)
-    private String cpf;
-
-    @Schema(hidden = true)
-    private String name;
-
-    @Schema(hidden = true)
-    private String gender;
-
-    @Schema(hidden = true)
-    private String photo;
-
-    @Schema(hidden = true)
     private boolean isAdmin;
 
-    @Schema(hidden = true)
+    private String cpf;
+
+    private String name;
+
+    private String gender;
+
+    private String photo;
+
     private String token;
 }

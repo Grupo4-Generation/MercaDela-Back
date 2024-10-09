@@ -23,7 +23,6 @@ import lombok.Data;
 @Table(name = "tb_users")
 public class User {
 
-    @Schema(hidden = true)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,24 +35,18 @@ public class User {
     @Size(min = 8, max = 255)
     private String password;
 
-    @Schema(hidden = true)
+    private boolean isAdmin;
+
     private String cpf;
 
-    @Schema(hidden = true)
     private String name;
 
-    @Schema(hidden = true)
     @Size(max = 255)
     private String gender;
 
-    @Schema(hidden = true)
     @Size(max = 5000)
     private String photo;
 
-    @Schema(hidden = true)
-    private boolean isAdmin;
-
-    @Schema(hidden = true)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties("user")
     private List<Product> product;
