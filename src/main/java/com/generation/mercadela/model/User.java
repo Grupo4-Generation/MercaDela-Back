@@ -23,14 +23,10 @@ import lombok.Data;
 @Table(name = "tb_users")
 public class User {
 
-    @Schema(hidden = true) // Retirar atributo na leitura do swagger apenas para não causar erro de produtos inexistentes quando criar novos usuários
+    @Schema(hidden = true)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String cpf;
-
-    private String name;
 
     @Schema(example = "email@email.com.br")
     @NotNull
@@ -40,15 +36,24 @@ public class User {
     @Size(min = 8, max = 255)
     private String password;
 
-    @Size(max = 5000)
-    private String photo;
+    @Schema(hidden = true)
+    private String cpf;
 
+    @Schema(hidden = true)
+    private String name;
+
+    @Schema(hidden = true)
     @Size(max = 255)
     private String gender;
 
-    private boolean admin;
+    @Schema(hidden = true)
+    @Size(max = 5000)
+    private String photo;
 
-    @Schema(hidden = true) // Retirar atributo na leitura do swagger apenas para não causar erro de produtos inexistentes quando criar novos usuários
+    @Schema(hidden = true)
+    private boolean isAdmin;
+
+    @Schema(hidden = true)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties("user")
     private List<Product> product;

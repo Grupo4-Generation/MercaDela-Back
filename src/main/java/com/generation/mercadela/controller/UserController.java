@@ -3,7 +3,6 @@ package com.generation.mercadela.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,17 +23,17 @@ import com.generation.mercadela.repository.UserRepository;
 import com.generation.mercadela.service.UserService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/user")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private  final UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @GetMapping("/all")
     public ResponseEntity<List<User>> getAll() {
@@ -53,7 +52,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> autenticaruser(@RequestBody Optional<UserLogin> userLogin) {
 
-        return userService.autenticaruser(userLogin)
+        return userService.login(userLogin)
                 .map(resposta -> {
                     // Supondo que o token seja gerado ou esteja no objeto resposta
                     return ResponseEntity.status(HttpStatus.OK).body(resposta.getToken());
@@ -71,9 +70,9 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<User> putuser(@Valid @RequestBody User user) {
+    public ResponseEntity<User> update(@Valid @RequestBody User user) {
 
-        return userService.atualizaruser(user)
+        return userService.update(user)
                 .map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 
