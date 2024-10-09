@@ -18,12 +18,9 @@ public class AuthenticationService {
         this.userRepository = userRepository;
     }
 
-    // Método para obter o usuário logado a partir do contexto de segurança
     public User getCurrentUser() {
-        // Obtém os detalhes do usuário autenticado do contexto de segurança
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        // Busca o usuário no banco de dados pelo email
         return userRepository.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não encontrado"));
     }
