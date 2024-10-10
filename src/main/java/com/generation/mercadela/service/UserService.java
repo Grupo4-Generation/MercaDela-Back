@@ -31,6 +31,7 @@ public class UserService {
 
     private final AuthenticationManager authenticationManager;
 
+    
     public Optional<User> register(User user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             return Optional.empty();
@@ -82,17 +83,17 @@ public class UserService {
             userLogin.get().setPhoto(user.get().getPhoto());
             userLogin.get().setGender(user.get().getGender());
             userLogin.get().setToken(createToken(userLogin.get().getEmail()));
-            userLogin.get().setPassword(""); // Remover a senha da resposta
+            userLogin.get().setPassword("");
 
             return userLogin;
         }
         return Optional.empty();
     }
 
-    public Long getLoggedInUserId() {
+    public User getLoggedInUser(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<User> loggedInUser = userRepository.findByEmail(userDetails.getUsername());
-        return loggedInUser.get().getId();
+        return loggedInUser.get();
     }
 
     private String encryptPassword(String senha) {

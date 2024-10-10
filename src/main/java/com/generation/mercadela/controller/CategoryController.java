@@ -1,7 +1,6 @@
 package com.generation.mercadela.controller;
 
 import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,11 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.generation.mercadela.model.Category;
 import com.generation.mercadela.service.CategoryService;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -48,7 +45,7 @@ public class CategoryController {
     }
 
     @PutMapping
-    public ResponseEntity<Category> put(@Valid @RequestBody Category category) {
+    public ResponseEntity<Category> update(@Valid @RequestBody Category category) {
         return categoryService.updateCategory(category.getId(), category)
                 .map(resposta -> ResponseEntity.status(HttpStatus.OK)
                 .body(resposta))
@@ -56,18 +53,14 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Category> post(@Valid @RequestBody Category category) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(categoryService.createCategory(category));
+    public ResponseEntity<?> create(@Valid @RequestBody Category category) {
+        return categoryService.createCategory(category);
+
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        try {
-            categoryService.deleteCategory(id);
-        } catch (ResponseStatusException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found.");
-        }
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        return categoryService.deleteCategory(id);
     }
 }

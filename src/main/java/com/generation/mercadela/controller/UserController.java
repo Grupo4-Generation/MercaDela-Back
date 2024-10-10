@@ -31,31 +31,38 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
-    private  final UserService userService;
+    private final UserService userService;
 
     private final UserRepository userRepository;
 
     @GetMapping("/all")
     public ResponseEntity<List<User>> getAll() {
+        boolean isUserAdmin = userService.getLoggedInUser().isAdmin();
+        if (isUserAdmin) {
+            return ResponseEntity.ok(userRepository.findAll());
 
-        return ResponseEntity.ok(userRepository.findAll());
-
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getById(@PathVariable Long id) {
+        boolean isUserAdmin = userService.getLoggedInUser().isAdmin();
+        if (!isUserAdmin) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         return userRepository.findById(id)
-                .map(resposta -> ResponseEntity.ok(resposta))
+                .map(e -> ResponseEntity.ok(e))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> autenticaruser(@RequestBody Optional<UserLogin> userLogin) {
+    public ResponseEntity<?> login(@RequestBody Optional<UserLogin> userLogin) {
 
         return userService.login(userLogin)
-                .map(resposta -> {
-                    // Supondo que o token seja gerado ou esteja no objeto resposta
-                    return ResponseEntity.status(HttpStatus.OK).body(resposta.getToken());
+                .map(e -> {
+                    return ResponseEntity.status(HttpStatus.OK).body(e);
                 })
                 .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
@@ -64,7 +71,7 @@ public class UserController {
     public ResponseEntity<?> register(@RequestBody @Valid User user) {
 
         return userService.register(user)
-                .map(resposta -> ResponseEntity.status(HttpStatus.CREATED).build())
+                .map(e -> ResponseEntity.status(HttpStatus.CREATED).body(e))
                 .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 
     }
@@ -73,7 +80,7 @@ public class UserController {
     public ResponseEntity<User> update(@Valid @RequestBody User user) {
 
         return userService.update(user)
-                .map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
+                .map(e -> ResponseEntity.status(HttpStatus.OK).body(e))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 
     }

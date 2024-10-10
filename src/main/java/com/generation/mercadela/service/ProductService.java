@@ -18,7 +18,8 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    private AuthenticationService authenticationService; 
+    private final UserService userService;
+
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
@@ -36,9 +37,8 @@ public class ProductService {
     }
 
     public Optional<Product> updateProduct(Long productId, Product updatedProduct) {
-        User currentUser = authenticationService.getCurrentUser(); // 
+        User currentUser = userService.getLoggedInUser();
 
-        // Verifica se o ID do usuário associado ao produto corresponde ao ID do usuário logado ou se o usuário é um administrador
         if (!currentUser.isAdmin() && !currentUser.getId().equals(updatedProduct.getUser().getId())) {
             throw new AccessDeniedException("You can only update your own products.");
         }

@@ -3,8 +3,13 @@ package com.generation.mercadela.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
 
 import com.generation.mercadela.model.Category;
 import com.generation.mercadela.model.User;
@@ -18,7 +23,7 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    private final AuthenticationService authenticationService;
+    private final UserService userService;
 
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
@@ -32,14 +37,17 @@ public class CategoryService {
         return categoryRepository.findAllByNameContainingIgnoreCase(name);
     }
 
-    public Category createCategory(Category category) {
-        return categoryRepository.save(category);
+    public ResponseEntity<?> createCategory(Category category) {
+        User loggedUser = userService.getLoggedInUser();
+        if (!loggedUser.isAdmin()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(categoryRepository.save(category));
     }
 
     public Optional<Category> updateCategory(Long categoryId, Category updatedCategory) {
-        User currentUser = authenticationService.getCurrentUser();
 
-        if (!currentUser.isAdmin()) {
+        if (!userService.getLoggedInUser().isAdmin()) {
             throw new AccessDeniedException("Only admins can update categories.");
         }
 
@@ -50,10 +58,17 @@ public class CategoryService {
                 });
     }
 
-    public void deleteCategory(Long id) {
+    public ResponseEntity<?>  deleteCategory(Long id) {
+        User loggedUser = userService.getLoggedInUser();
         if (!categoryRepository.existsById(id)) {
-            throw new IllegalArgumentException("Category not found.");
+            if (!loggedUser.isAdmin()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        } else {
+            categoryRepository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.OK).build();
         }
-        categoryRepository.deleteById(id);
     }
 }
