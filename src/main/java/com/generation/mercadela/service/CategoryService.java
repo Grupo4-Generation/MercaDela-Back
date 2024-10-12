@@ -6,14 +6,13 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
 
 import com.generation.mercadela.model.Category;
-import com.generation.mercadela.model.User;
 import com.generation.mercadela.repository.CategoryRepository;
+import com.generation.mercadela.security.UserDetailsImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,8 +21,6 @@ import lombok.RequiredArgsConstructor;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
-
-    private final UserService userService;
 
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
@@ -38,37 +35,45 @@ public class CategoryService {
     }
 
     public ResponseEntity<?> createCategory(Category category) {
-        User loggedUser = userService.getLoggedInUser();
-        if (!loggedUser.isAdmin()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+        validateAdminPermission(); // Verificação de permissão
         return ResponseEntity.ok(categoryRepository.save(category));
     }
 
-    public Optional<Category> updateCategory(Long categoryId, Category updatedCategory) {
+    public Optional<Category> updateCategory(Category updatedCategory) {
+        validateAdminPermission(); // Verificação de permissão
 
-        if (!userService.getLoggedInUser().isAdmin()) {
-            throw new AccessDeniedException("Only admins can update categories.");
-        }
-
-        return categoryRepository.findById(categoryId)
+        return categoryRepository.findById(updatedCategory.getId())
                 .map(existingCategory -> {
                     existingCategory.setName(updatedCategory.getName());
                     return categoryRepository.save(existingCategory);
                 });
     }
 
-    public ResponseEntity<?>  deleteCategory(Long id) {
-        User loggedUser = userService.getLoggedInUser();
+    public ResponseEntity<?> deleteCategory(Long id) {
         if (!categoryRepository.existsById(id)) {
-            if (!loggedUser.isAdmin()) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
 
+        validateAdminPermission(); // Verificação de permissão
+
+        categoryRepository.deleteById(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    private void validateAdminPermission() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+
+        // Log para verificar o tipo de principal
+        System.out.println("Tipo de principal: " + principal.getClass().getName());
+
+        if (principal instanceof UserDetailsImpl) {
+            UserDetailsImpl currentUser = (UserDetailsImpl) principal; // Casting para sua implementação
+            if (!currentUser.isAdmin()) {
+                throw new AccessDeniedException("Only admins can perform this action.");
+            }
         } else {
-            categoryRepository.deleteById(id);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            throw new AccessDeniedException("Authentication required.");
         }
     }
 }

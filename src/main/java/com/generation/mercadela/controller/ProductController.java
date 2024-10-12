@@ -4,22 +4,12 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.*;
 
 import com.generation.mercadela.model.Product;
 import com.generation.mercadela.service.ProductService;
 
-import jakarta.validation.Valid; // Importando o ProductService
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -55,7 +45,7 @@ public class ProductController {
 
     @PutMapping
     public ResponseEntity<Product> put(@Valid @RequestBody Product product) {
-        return productService.updateProduct(product.getId(), product)
+        return productService.updateProduct(product)
                 .map(resposta -> ResponseEntity.status(HttpStatus.OK)
                 .body(resposta))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -64,10 +54,6 @@ public class ProductController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        try {
-            productService.deleteProduct(id);
-        } catch (ResponseStatusException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado");
-        }
+        productService.deleteProduct(id);
     }
 }

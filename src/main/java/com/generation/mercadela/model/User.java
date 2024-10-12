@@ -2,7 +2,7 @@ package com.generation.mercadela.model;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
@@ -47,8 +47,7 @@ public class User {
     @Size(max = 5000)
     private String photo;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "", cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties("user")
-    private List<Product> product;
-
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<Product> products;
 }

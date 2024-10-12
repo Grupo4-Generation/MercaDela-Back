@@ -2,6 +2,7 @@ package com.generation.mercadela.model;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
@@ -33,19 +34,18 @@ public class Product {
     private String description;
 
     @NotNull
-    @PositiveOrZero()
+    @PositiveOrZero
     private BigDecimal price;
 
     @NotBlank
     private String photo;
 
     @ManyToOne
-    @JsonIgnoreProperties("product")
+    @JsonIgnoreProperties("products") // Ignore products in Category
     @NotNull
     private Category category;
 
     @ManyToOne
-    @JsonIgnoreProperties("product")
+    @JsonIgnore // Ignora o user ao serializar o Product
     private User user;
-
 }

@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.generation.mercadela.model.Product;
-import com.generation.mercadela.model.User;
 import com.generation.mercadela.repository.ProductRepository;
+import com.generation.mercadela.security.UserDetailsImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,8 +19,6 @@ import lombok.RequiredArgsConstructor;
 public class ProductService {
 
     private final ProductRepository productRepository;
-
-    private final UserService userService;
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
@@ -36,14 +36,10 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Optional<Product> updateProduct(Long productId, Product updatedProduct) {
-        User currentUser = userService.getLoggedInUser();
+    public Optional<Product> updateProduct(Product updatedProduct) {
+        validateProductOwnerOrAdmin(updatedProduct); // Verificação de permissão
 
-        if (!currentUser.isAdmin() && !currentUser.getId().equals(updatedProduct.getUser().getId())) {
-            throw new AccessDeniedException("You can only update your own products.");
-        }
-
-        return productRepository.findById(productId)
+        return productRepository.findById(updatedProduct.getId())
                 .map(existingProduct -> {
                     existingProduct.setName(updatedProduct.getName());
                     existingProduct.setPrice(updatedProduct.getPrice());
@@ -56,6 +52,34 @@ public class ProductService {
         if (!productRepository.existsById(id)) {
             throw new IllegalArgumentException("Product not found.");
         }
+        validateProductOwnerOrAdmin(id); // Verificação de permissão
         productRepository.deleteById(id);
+    }
+
+    private void validateProductOwnerOrAdmin(Product product) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+
+        // Log para verificar o tipo de principal
+        System.out.println("Tipo de principal: " + principal.getClass().getName());
+
+        if (principal instanceof UserDetailsImpl currentUser) {
+
+            // Verifica se o usuário é admin ou se é o dono do produto
+            if (!currentUser.isAdmin() && !currentUser.getId().equals(product.getUser().getId())) {
+                throw new AccessDeniedException("You can only update your own products.");
+            }
+        } else {
+            throw new AccessDeniedException("Authentication required.");
+        }
+    }
+
+    private void validateProductOwnerOrAdmin(Long productId) {
+        Optional<Product> productOpt = productRepository.findById(productId);
+        if (productOpt.isPresent()) {
+            validateProductOwnerOrAdmin(productOpt.get());
+        } else {
+            throw new IllegalArgumentException("Product not found.");
+        }
     }
 }

@@ -1,9 +1,7 @@
 package com.generation.mercadela.controller;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,13 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
+import com.generation.mercadela.dto.UserLoginDTO;
+import com.generation.mercadela.dto.UserResponseDTO;
 import com.generation.mercadela.model.User;
-import com.generation.mercadela.model.UserLogin;
-import com.generation.mercadela.repository.UserRepository;
 import com.generation.mercadela.service.UserService;
 
 import jakarta.validation.Valid;
@@ -33,67 +29,33 @@ public class UserController {
 
     private final UserService userService;
 
-    private final UserRepository userRepository;
-
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getAll() {
-        boolean isUserAdmin = userService.getLoggedInUser().isAdmin();
-        if (isUserAdmin) {
-            return ResponseEntity.ok(userRepository.findAll());
-
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+    public ResponseEntity<List<UserResponseDTO>> findAll() {
+        return userService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getById(@PathVariable Long id) {
-        boolean isUserAdmin = userService.getLoggedInUser().isAdmin();
-        if (!isUserAdmin) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        return userRepository.findById(id)
-                .map(e -> ResponseEntity.ok(e))
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<UserResponseDTO> getById(@PathVariable Long id) {
+        return userService.getById(id);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Optional<UserLogin> userLogin) {
-
-        return userService.login(userLogin)
-                .map(e -> {
-                    return ResponseEntity.status(HttpStatus.OK).body(e);
-                })
-                .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+    public ResponseEntity<UserLoginDTO> login(@RequestBody @Valid UserLoginDTO userLogin) {
+        return userService.login(userLogin);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Valid User user) {
-
-        return userService.register(user)
-                .map(e -> ResponseEntity.status(HttpStatus.CREATED).body(e))
-                .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
-
+    public ResponseEntity<UserResponseDTO> register(@RequestBody @Valid User user) {
+        return userService.register(user);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<User> update(@Valid @RequestBody User user) {
-
-        return userService.update(user)
-                .map(e -> ResponseEntity.status(HttpStatus.OK).body(e))
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-
+    public ResponseEntity<UserResponseDTO> update(@Valid @RequestBody User user) {
+        return userService.update(user);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        Optional<User> user = userRepository.findById(id);
-
-        if (user.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-
-        userRepository.deleteById(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        return userService.delete(id);
     }
 }
