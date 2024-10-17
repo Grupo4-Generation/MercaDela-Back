@@ -37,7 +37,7 @@ public class ProductService {
     }
 
     public Optional<Product> updateProduct(Product updatedProduct) {
-        validateProductOwnerOrAdmin(updatedProduct); // Verificação de permissão
+        validateProductOwnerOrAdmin(updatedProduct);
 
         return productRepository.findById(updatedProduct.getId())
                 .map(existingProduct -> {
@@ -52,7 +52,7 @@ public class ProductService {
         if (!productRepository.existsById(id)) {
             throw new IllegalArgumentException("Product not found.");
         }
-        validateProductOwnerOrAdmin(id); // Verificação de permissão
+        validateProductOwnerOrAdmin(id);
         productRepository.deleteById(id);
     }
 
@@ -60,12 +60,10 @@ public class ProductService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
 
-        // Log para verificar o tipo de principal
         System.out.println("Tipo de principal: " + principal.getClass().getName());
 
         if (principal instanceof UserDetailsImpl currentUser) {
 
-            // Verifica se o usuário é admin ou se é o dono do produto
             if (!currentUser.isAdmin() && !currentUser.getId().equals(product.getUser().getId())) {
                 throw new AccessDeniedException("You can only update your own products.");
             }

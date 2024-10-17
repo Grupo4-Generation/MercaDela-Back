@@ -35,12 +35,12 @@ public class CategoryService {
     }
 
     public ResponseEntity<?> createCategory(Category category) {
-        validateAdminPermission(); // Verificação de permissão
+        validateAdminPermission();
         return ResponseEntity.ok(categoryRepository.save(category));
     }
 
     public Optional<Category> updateCategory(Category updatedCategory) {
-        validateAdminPermission(); // Verificação de permissão
+        validateAdminPermission();
 
         return categoryRepository.findById(updatedCategory.getId())
                 .map(existingCategory -> {
@@ -64,11 +64,9 @@ public class CategoryService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
 
-        // Log para verificar o tipo de principal
         System.out.println("Tipo de principal: " + principal.getClass().getName());
 
-        if (principal instanceof UserDetailsImpl) {
-            UserDetailsImpl currentUser = (UserDetailsImpl) principal; // Casting para sua implementação
+        if (principal instanceof UserDetailsImpl currentUser) {
             if (!currentUser.isAdmin()) {
                 throw new AccessDeniedException("Only admins can perform this action.");
             }

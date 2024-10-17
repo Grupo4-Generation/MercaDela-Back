@@ -2,13 +2,13 @@ package com.generation.mercadela.model;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -41,11 +41,13 @@ public class Product {
     private String photo;
 
     @ManyToOne
-    @JsonIgnoreProperties("products") // Ignore products in Category
+    @JsonIgnoreProperties("products")
+    @JoinColumn(name = "category_id", nullable = false)
     @NotNull
     private Category category;
 
     @ManyToOne
-    @JsonIgnore // Ignora o user ao serializar o Product
+    @JsonIgnoreProperties("products")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }

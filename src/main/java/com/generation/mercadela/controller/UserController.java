@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.generation.mercadela.dto.UserLoginDTO;
-import com.generation.mercadela.dto.UserResponseDTO;
 import com.generation.mercadela.model.User;
 import com.generation.mercadela.service.UserService;
 
@@ -30,27 +29,27 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<UserResponseDTO>> findAll() {
+    public ResponseEntity<List<UserLoginDTO>> findAll() {
         return userService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> getById(@PathVariable Long id) {
+    public ResponseEntity<UserLoginDTO> getById(@PathVariable Long id) {
         return userService.getById(id);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserLoginDTO> login(@RequestBody @Valid UserLoginDTO userLogin) {
-        return userService.login(userLogin);
+    public ResponseEntity<UserLoginDTO> login(@RequestBody @Valid UserLoginDTO UserLoginDTO) {
+        return userService.login(UserLoginDTO);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponseDTO> register(@RequestBody @Valid User user) {
+    public ResponseEntity<UserLoginDTO> register(@RequestBody @Valid User user) {
         return userService.register(user);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<UserResponseDTO> update(@Valid @RequestBody User user) {
+    public ResponseEntity<UserLoginDTO> update(@Valid @RequestBody User user) {
         return userService.update(user);
     }
 
